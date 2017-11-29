@@ -4,9 +4,9 @@ Use at your own risk
 This Script has been tested on a DietPi (http://dietpi.com/) Version V158 
 
 
-#Usage
+# Usage
 
-##Installation
+## Installation
 1) Download the file system_readonly_prep.sh 
    wget https://raw.githubusercontent.com/bdynamic/raspberry_tools/release/readonly/system_readonly_prep.sh
 2) make it executable
@@ -15,7 +15,7 @@ This Script has been tested on a DietPi (http://dietpi.com/) Version V158
    ./system_readonly_prep.sh
 
 
-##After Install
+## After Install
 * In order to make the system writable again (temporary) please run the command: system_set_rw.sh
 * To make it read only again use system_set_ro.sh
 
