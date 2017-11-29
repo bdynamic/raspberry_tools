@@ -38,7 +38,15 @@ EOF
 	##
 	#### Ready the resolve.conf
 	###
-	echo "Changing resolve.conf (org backup at /etc/resolv.conf.org)"
+	#echo "Changing resolve.conf (org backup at /etc/resolvconf/run/resolv.conf.org)"
+
+	#original resolve.conf is also a link! /etc/resolv.conf -> /etc/resolvconf/run/resolv.conf
+	#no need for linking because /etc/resolvconf/run is a link to /etc/resolvconf/run -> /run/resolvconf
+	#cp -a /etc/resolvconf/run/resolv.conf /etc/resolvconf/run/resolv.conf.org
+	#mv /etc/resolvconf/run/resolv.conf /tmp/resolv.conf
+	#ln -s /tmp/resolv.conf /etc/resolvconf/run/resolv.conf
+
+
 	#link resolv.conf to tmp fs
 
 
@@ -60,14 +68,14 @@ EOF
 #	cat /tmp/resolvconf.service >/lib/systemd/system/resolvconf.service
 #	rm /tmp/resolvconf.service
 
-	#solution try 3
-	#https://www.raspberrypi.org/forums/viewtopic.php?f=63&t=62705#p465352
-	mv /etc/resolv.conf /tmp/resolv.conf
-	ln -s /tmp/resolv.conf /etc/resolv.conf
-	cp -a /sbin/dhclient-script /sbin/dhclient-script.org
-	cat /sbin/dhclient-script|sed 's/\/etc\/resolv.conf/\/tmp\/resolv.conf/g' >/tmp/dhclient-script
-	cat /tmp/dhclient-script >/sbin/dhclient-script
-	rm /tmp/dhclient-script
+	# #solution try 3
+	# #https://www.raspberrypi.org/forums/viewtopic.php?f=63&t=62705#p465352
+	# mv /etc/resolv.conf /tmp/resolv.conf
+	# ln -s /tmp/resolv.conf /etc/resolv.conf
+	# cp -a /sbin/dhclient-script /sbin/dhclient-script.org
+	# cat /sbin/dhclient-script|sed 's/\/etc\/resolv.conf/\/tmp\/resolv.conf/g' >/tmp/dhclient-script
+	# cat /tmp/dhclient-script >/sbin/dhclient-script
+	# rm /tmp/dhclient-script
 
 
 
