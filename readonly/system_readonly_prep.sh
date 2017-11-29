@@ -3,7 +3,10 @@
 #system_readonly_prep.sh
 
 
-##### Warning this still development and doesn't work completely!
+####################################################################
+# CHANGELOG
+####################################################################
+# 2017-11-29: First working version completed
 
 
 
@@ -47,49 +50,16 @@ EOF
 	#ln -s /tmp/resolv.conf /etc/resolvconf/run/resolv.conf
 
 
-	#link resolv.conf to tmp fs
 
-
-
-#   solution try one
-#	cp /etc/resolv.conf /etc/resolv.conf.org
-#	mv /etc/resolv.conf /tmp/resolv.conf
-#	ln -s /tmp/resolv.conf /etc/resolv.conf
-#	echo -e '#!/bin/bash\ntouch /tmp/resolve.conf' >/etc/dhcp/dhclient-enter-hooks.d/create_resolveconf
-#
-
-#   solution try 2
-#	cp /etc/resolv.conf /etc/resolv.conf.org
-#	mv /etc/resolv.conf /tmp/resolv.conf
-#	ln -s /tmp/resolv.conf /etc/resolv.conf
-#	echo "patch the systemd resolfe file (org at /lib/systemd/system/resolvconf.service.org)"
-#	cp /lib/systemd/system/resolvconf.service /lib/systemd/system/resolvconf.service.org
-#	cat /lib/systemd/system/resolvconf.service |sed 's/RemainAfterExit=yes/RemainAfterExit=yes\nExecStartPre=\/bin\/echo "" >\/tmp\/resolv.conf/g' >/tmp/resolvconf.service
-#	cat /tmp/resolvconf.service >/lib/systemd/system/resolvconf.service
-#	rm /tmp/resolvconf.service
-
-	# #solution try 3
-	# #https://www.raspberrypi.org/forums/viewtopic.php?f=63&t=62705#p465352
-	# mv /etc/resolv.conf /tmp/resolv.conf
-	# ln -s /tmp/resolv.conf /etc/resolv.conf
-	# cp -a /sbin/dhclient-script /sbin/dhclient-script.org
-	# cat /sbin/dhclient-script|sed 's/\/etc\/resolv.conf/\/tmp\/resolv.conf/g' >/tmp/dhclient-script
-	# cat /tmp/dhclient-script >/sbin/dhclient-script
-	# rm /tmp/dhclient-script
-
-
-
-## apt helper - put into /etc/apt/apt.conf 
-# SRC: https://wiki.debian.org/ReadonlyRoot
-#DPkg {
-#    // Auto re-mounting of a readonly /
-#    Pre-Invoke { "mount -o remount,rw /"; };
-#    Post-Invoke { "test ${NO_APT_REMOUNT:-no} = yes || mount -o remount,ro / || true"; };
-#};
-
-
-
-
+	# Comment: This seems not to work ... at least for apt-get update
+	# left in code for future reference
+	## apt helper - put into /etc/apt/apt.conf 
+	# SRC: https://wiki.debian.org/ReadonlyRoot
+	#DPkg {
+	#    // Auto re-mounting of a readonly /
+	#    Pre-Invoke { "mount -o remount,rw /"; };
+	#    Post-Invoke { "test ${NO_APT_REMOUNT:-no} = yes || mount -o remount,ro / || true"; };
+	#};
 
 
 	##
@@ -138,7 +108,7 @@ function INSTALL_HELPERS {
 	cat << 'EOF' > /usr/local/sbin/system_set_ro.sh
 #!/bin/bash
 #This script restores the system ro statesystem_set_ro
-apt-get autoremove 
+apt-get -y autoremove 
 apt-get clean
 echo “Will reboot for making system ro again”
 read -p "Press enter to continue"
